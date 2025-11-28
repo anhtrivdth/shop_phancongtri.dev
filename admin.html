@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS Quản Trị | DigiStore</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config & Custom Styles -->
+    <script src="admin-tailwind-config.js"></script>
+    <link rel="stylesheet" href="admin.css">
+
+</head>
+<body class="bg-gray-100 text-slate-800 font-sans h-screen flex overflow-hidden">
+
+    <!-- LOGIN SCREEN OVERLAY -->
+    <div id="login-screen" class="fixed inset-0 z-[100] bg-slate-900 flex items-center justify-center">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md text-center">
+            <div class="w-16 h-16 bg-primary text-white rounded-xl flex items-center justify-center mx-auto mb-6 text-3xl shadow-lg shadow-blue-500/30">
+                <i class="fa-solid fa-cube"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">DigiStore Admin</h2>
+            <p class="text-gray-500 mb-6 text-sm">Vui lòng đăng nhập để tiếp tục</p>
+            
+            <form onsubmit="app.login(event)" class="space-y-4 text-left">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Username</label>
+                    <input type="text" value="admin" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-accent outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Password</label>
+                    <input type="password" value="123456" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-accent outline-none">
+                </div>
+                <button type="submit" class="w-full bg-primary hover:bg-slate-800 text-white font-bold py-3 rounded-xl transition shadow-lg">
+                    Đăng nhập hệ thống
+                </button>
+            </form>
+            <p class="mt-6 text-xs text-gray-400">Secure Access v2.0</p>
+        </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col flex-shrink-0 z-20 transition-all duration-300" id="sidebar">
+        <div class="h-16 flex items-center px-6 border-b border-gray-100">
+            <div class="font-extrabold text-xl tracking-tight flex items-center gap-2 text-primary">
+                <i class="fa-solid fa-cube text-accent"></i> DigiCMS
+            </div>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+            <p class="px-2 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Quản lý nội dung</p>
+            
+            <a href="#" onclick="app.navigate('dashboard')" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-primary transition group bg-primary/5 text-primary font-bold">
+                <i class="fa-solid fa-chart-simple w-5 text-center"></i> Tổng quan
+            </a>
+            
+            <a href="#" onclick="app.navigate('products')" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-primary transition group">
+                <i class="fa-solid fa-box-open w-5 text-center"></i> Kho sản phẩm
+            </a>
+            
+            <a href="#" onclick="app.navigate('categories')" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-primary transition group">
+                <i class="fa-solid fa-layer-group w-5 text-center"></i> Danh mục
+            </a>
+
+            <a href="#" onclick="app.navigate('blogs')" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-primary transition group">
+                <i class="fa-solid fa-pen-nib w-5 text-center"></i> Bài viết / Blog
+            </a>
+
+            <p class="px-2 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Giao diện & Hệ thống</p>
+
+            <a href="#" onclick="app.navigate('banners')" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-primary transition group">
+                <i class="fa-regular fa-image w-5 text-center"></i> Banner Quảng cáo
+            </a>
+
+            <a href="#" onclick="app.navigate('settings')" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-primary transition group">
+                <i class="fa-solid fa-sliders w-5 text-center"></i> Cấu hình chung
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-gray-100 bg-gray-50">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold">A</div>
+                <div>
+                    <div class="text-sm font-bold text-gray-900">Admin</div>
+                    <div class="text-xs text-gray-500">Super User</div>
+                </div>
+                <button onclick="app.logout()" class="ml-auto text-gray-400 hover:text-red-500" title="Đăng xuất"><i class="fa-solid fa-power-off"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative bg-slate-50">
+        <!-- Header -->
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8">
+            <h2 id="page-title" class="font-bold text-xl text-gray-800">Tổng quan</h2>
+            <div class="flex gap-3">
+                <button class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 text-gray-700">
+                    <i class="fa-solid fa-eye mr-1"></i> Xem Website
+                </button>
+            </div>
+        </header>
+
+        <!-- View Area -->
+        <div id="app-view" class="flex-1 overflow-y-auto p-8">
+            <!-- Content injected via JS -->
+        </div>
+    </main>
+
+    <!-- MODAL: PRODUCT EDIT (Simplified for Demo) -->
+    <div id="common-modal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-white">
+                <h3 id="modal-title" class="font-bold text-lg text-gray-900">Tiêu đề Modal</h3>
+                <button onclick="document.getElementById('common-modal').classList.add('hidden')" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div id="modal-content" class="p-6 overflow-y-auto">
+                <!-- Content injected here -->
+            </div>
+            <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-2">
+                <button onclick="document.getElementById('common-modal').classList.add('hidden')" class="px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-lg text-sm font-medium">Hủy</button>
+                <button class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold shadow-lg">Lưu lại</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script src="admin.js"></script>
+</body>
+</html>
