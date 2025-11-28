@@ -29,14 +29,14 @@ class Product extends Model
         }
 
         if (!empty($filters['search'])) {
-            $sql .= " AND (p.name ILIKE :search OR p.slug ILIKE :search)";
+            $sql .= " AND (p.name LIKE :search OR p.slug LIKE :search)";
             $params['search'] = '%' . $filters['search'] . '%';
         }
 
         $sort = $filters['sort'] ?? 'newest';
         $order = match ($sort) {
-            'price_asc' => 'p.min_price ASC NULLS LAST',
-            'price_desc' => 'p.max_price DESC NULLS LAST',
+            'price_asc' => 'CASE WHEN p.min_price IS NULL THEN 1 ELSE 0 END ASC, p.min_price ASC',
+            'price_desc' => 'CASE WHEN p.max_price IS NULL THEN 1 ELSE 0 END ASC, p.max_price DESC',
             'popular' => 'p.is_featured DESC, p.updated_at DESC',
             default => 'p.created_at DESC',
         };

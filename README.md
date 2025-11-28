@@ -1,11 +1,11 @@
 # SHOP – Digital Account Service Website
 
-Native PHP + PostgreSQL MVC stack for selling digital accounts/services without online payments.
+Native PHP + MySQL MVC stack for selling digital accounts/services without online payments.
 
 ## Requirements
 
 - PHP 8.1+
-- PostgreSQL 14+
+- MySQL 8.0+
 - Composer (optional for helpers)
 
 ## Installation
@@ -14,7 +14,7 @@ Native PHP + PostgreSQL MVC stack for selling digital accounts/services without 
 2. Copy `.env.example` to `.env` (or set environment variables).
 3. Create database and run migrations:
    ```bash
-   psql -U postgres -d shop -f database/schema.sql
+   mysql -h host86.nify.vn -u arownwgr9fs_admin -p arownwgr9fs_shop < database/schema.sql
    ```
 4. Configure web server document root to `public/` and enable URL rewriting.
 5. Update `config/database.php` with credentials or use env vars.

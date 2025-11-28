@@ -7,8 +7,9 @@ class Cart extends Model
 
     public function createCart(): string
     {
-        $stmt = $this->db->query("INSERT INTO {$this->table} DEFAULT VALUES RETURNING id");
-        return $stmt->fetchColumn();
+        $stmt = $this->db->prepare("INSERT INTO {$this->table} (created_at, updated_at) VALUES (NOW(), NOW())");
+        $stmt->execute();
+        return $this->db->lastInsertId();
     }
 }
 

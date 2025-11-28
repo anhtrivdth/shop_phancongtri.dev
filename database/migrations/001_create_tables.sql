@@ -1,3 +1,3 @@
--- Migration 001: base schema
-\i '../schema.sql'
+-- Migration 001: base schema (MySQL)
+SOURCE ../schema.sql;
 

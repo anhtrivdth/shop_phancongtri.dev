@@ -14,7 +14,7 @@ class Review extends Model
 
     public function canPost(string $ipAddress): bool
     {
-        $stmt = $this->db->prepare("SELECT COUNT(*) FROM {$this->table} WHERE ip_address = :ip AND created_at >= (NOW() - INTERVAL '2 minutes')");
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM {$this->table} WHERE ip_address = :ip AND created_at >= (NOW() - INTERVAL 2 MINUTE)");
         $stmt->execute(['ip' => $ipAddress]);
         return (int)$stmt->fetchColumn() === 0;
     }
