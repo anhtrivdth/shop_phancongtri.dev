@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 session_start();
 
-use Config\Database;
+use Core\Database;
 use Controllers\Backend\AdminContactsController;
 use Controllers\Backend\AdminsController;
 use Controllers\Backend\AuthController as BackendAuthController;
@@ -24,15 +24,13 @@ use Core\Router;
 use Models\Admin;
 
 require_once dirname(__DIR__) . '/core/Functions.php';
-require_once dirname(__DIR__) . '/config/database.php';
 
 spl_autoload_register(function (string $class): void {
     $baseDir = dirname(__DIR__) . DIRECTORY_SEPARATOR;
     $prefixes = [
-        'Core\\'         => 'core/',
-        'Controllers\\'  => 'controllers/',
-        'Models\\'       => 'models/',
-        'Config\\'       => 'config/',
+        'Core\\'        => 'core/',
+        'Controllers\\' => 'controllers/',
+        'Models\\'      => 'models/',
     ];
 
     foreach ($prefixes as $prefix => $directory) {
@@ -47,7 +45,7 @@ spl_autoload_register(function (string $class): void {
     }
 });
 
-$pdo = Database::getInstance();
+$pdo = Database::getConnection();
 (new Admin($pdo))->ensureDefaultAdmin();
 
 $router = new Router($pdo);
